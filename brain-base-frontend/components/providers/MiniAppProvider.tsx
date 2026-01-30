@@ -5,7 +5,7 @@ import { useEffect, useState, createContext, useContext, ReactNode } from 'react
 interface MiniAppContextType {
   isReady: boolean;
   isInMiniApp: boolean;
-  user: any | null;
+  user: unknown | null;
 }
 
 const MiniAppContext = createContext<MiniAppContextType>({
@@ -29,7 +29,7 @@ interface MiniAppProviderProps {
 export function MiniAppProvider({ children }: MiniAppProviderProps) {
   const [isReady, setIsReady] = useState(false);
   const [isInMiniApp, setIsInMiniApp] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown | null>(null);
 
   useEffect(() => {
     const initMiniApp = async () => {
