@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Head from 'next/head';
 import { Inter, Audiowide } from 'next/font/google';
 
 import RootProviders from '@/lib/providers';
@@ -24,6 +23,9 @@ const audiowide = Audiowide({
 export const metadata: Metadata = {
   title: 'BrainBase',
   description: 'Get Answers. Earn Tokens. Own Your Reputation.',
+  other: {
+    'base:app_id': '697cdf8c77db5d481cffc8a9',
+  },
 };
 
 export default function RootLayout({
@@ -33,12 +35,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        <meta
-          name="base:app_id"
-          content="697cdf8c77db5d481cffc8a9"
-        />
-      </Head>
       <body
         className={`${inter.variable} ${inter.variable} ${audiowide.variable} ${audiowide.variable} antialiased`}
       >
