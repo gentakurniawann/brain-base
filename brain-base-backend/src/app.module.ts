@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { QuestionsModule } from './questions/questions.module';
 import { AnswersModule } from './answers/answers.module';
 import { LedgerModule } from './ledger/ledger.module';
+import { BountiesModule } from './bounties/bounties.module';
 import { WebhookModule } from './webhook/webhook.module';
 import { InternalModule } from './internal/internal.module';
 import { SseModule } from './sse/sse.module';
@@ -12,6 +13,7 @@ import { ChainModule } from './chain/chain.module';
 import { IpfsModule } from './ipfs/ipfs.module';
 import { HashingModule } from './hashing/hashing.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
+import { FaucetSwapModule } from './faucet-swap/faucet-swap.module';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { LeaderboardModule } from './leaderboard/leaderboard.module';
     QuestionsModule,
     AnswersModule,
     LedgerModule,
+    BountiesModule,
     WebhookModule,
     InternalModule,
     SseModule,
@@ -31,6 +34,7 @@ import { LeaderboardModule } from './leaderboard/leaderboard.module';
     IpfsModule,
     HashingModule,
     LeaderboardModule,
+    FaucetSwapModule,
   ],
 })
 export class AppModule {}
