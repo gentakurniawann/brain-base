@@ -5,7 +5,6 @@ export async function GET() {
 
   const manifest = {
     accountAssociation: {
-      // Fill these after registering at https://www.base.dev/preview?tab=account
       header: '',
       payload: '',
       signature: '',
