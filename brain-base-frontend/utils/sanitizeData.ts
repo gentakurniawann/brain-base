@@ -1,16 +1,27 @@
-/**
- * Sanitize a string using DOMPurify (client-side only)
- * On server-side, returns the original string to avoid __dirname issues
- */
-const sanitizeString = (str: string): string => {
-  if (typeof window !== 'undefined') {
-    // Client-side: use DOMPurify
-    // Dynamic import is handled at module level for performance
-    const DOMPurify = require('dompurify');
-    return DOMPurify.sanitize(str);
+/* eslint-disable @typescript-eslint/no-require-imports */
+import type DOMPurify from 'dompurify';
+
+
+let DOMPurifyInstance: typeof DOMPurify | null = null;
+
+
+const getDOMPurify = (): typeof DOMPurify | null => {
+  if (typeof window === 'undefined') {
+    return null;
   }
-  // Server-side: return trimmed string (basic sanitization)
-  // Full sanitization will happen on client-side
+  if (!DOMPurifyInstance) {
+    DOMPurifyInstance = require('dompurify');
+  }
+  return DOMPurifyInstance;
+};
+
+
+const sanitizeString = (str: string): string => {
+  const purify = getDOMPurify();
+  if (purify) {
+    return purify.sanitize(str);
+  }
+
   return str;
 };
 
@@ -24,10 +35,7 @@ export const sanitizeData = (data: unknown): unknown => {
     if (!data) {
       return data;
     }
-
-    // Handle different data types
     if (typeof data === 'string') {
-      // Allow email addresses to pass through without sanitizing
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (emailRegex.test(data)) {
         return data;
@@ -58,7 +66,7 @@ export const sanitizeData = (data: unknown): unknown => {
     return data;
   } catch (error) {
     console.error('Error sanitizing data:', error);
-    return data; // Return original data if sanitization fails
+    return data;
   }
 };
 
@@ -69,7 +77,6 @@ export const sanitizeData = (data: unknown): unknown => {
  */
 export const sanitizeUrl = (url: string): string => {
   try {
-    // Split URL into base path and query string
     const [basePath, queryString] = url.split('?');
 
     // Sanitize path parameters
@@ -77,12 +84,10 @@ export const sanitizeUrl = (url: string): string => {
     const sanitizedPathParts = pathParts.map((part) => sanitizeData(decodeURIComponent(part)));
     const sanitizedBasePath = sanitizedPathParts.join('/');
 
-    // If there's no query string, return the sanitized base path
     if (!queryString) {
       return sanitizedBasePath;
     }
 
-    // Parse and sanitize query parameters
     const searchParams = new URLSearchParams(queryString);
     const sanitizedParams = new URLSearchParams();
 
@@ -93,13 +98,12 @@ export const sanitizeUrl = (url: string): string => {
       );
     });
 
-    // Reconstruct the URL with sanitized parts
     const sanitizedQueryString = sanitizedParams.toString();
     return sanitizedQueryString
       ? `${sanitizedBasePath}?${sanitizedQueryString}`
       : sanitizedBasePath;
   } catch (error) {
     console.error('Error sanitizing URL:', error);
-    return url; // Return original URL if sanitization fails
+    return url;
   }
 };
