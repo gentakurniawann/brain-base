@@ -2,6 +2,16 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { QuestionsModule } from './questions/questions.module';
+import { AnswersModule } from './answers/answers.module';
+import { LedgerModule } from './ledger/ledger.module';
+import { WebhookModule } from './webhook/webhook.module';
+import { InternalModule } from './internal/internal.module';
+import { SseModule } from './sse/sse.module';
+import { ChainModule } from './chain/chain.module';
+import { IpfsModule } from './ipfs/ipfs.module';
+import { HashingModule } from './hashing/hashing.module';
+import { LeaderboardModule } from './leaderboard/leaderboard.module';
 
 @Module({
   imports: [
@@ -11,6 +21,16 @@ import { UsersModule } from './users/users.module';
     }),
     AuthModule,
     UsersModule,
+    QuestionsModule,
+    AnswersModule,
+    LedgerModule,
+    WebhookModule,
+    InternalModule,
+    SseModule,
+    ChainModule,
+    IpfsModule,
+    HashingModule,
+    LeaderboardModule,
   ],
 })
 export class AppModule {}
