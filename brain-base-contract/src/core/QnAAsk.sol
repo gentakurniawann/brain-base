@@ -198,12 +198,10 @@ abstract contract QnAAsk is QnAStorage {
 
         q.status = QuestionStatus.Expired;
         q.refunded = true;
-
         uint256 amount = q.bounty;
         q.bounty = 0;
         address token = q.token;
 
-        // Refund the bounty
         if (amount > 0) {
             if (token == address(0)) {
                 (bool ok, ) = q.asker.call{value: amount}("");
