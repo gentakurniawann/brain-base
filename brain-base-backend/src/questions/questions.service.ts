@@ -8,11 +8,11 @@ import { PrismaService } from '../common/prisma.service';
 import { IpfsService } from '../ipfs/ipfs.service';
 import { HashingService } from '../hashing/hashing.service';
 import { publish } from '../sse/sse.controller';
-import { ChainReadService } from 'src/chain/chain-read.service';
-import { SignerService } from 'src/chain/signer.service';
+import { ChainReadService } from '../chain/chain-read.service';
+import { SignerService } from '../chain/signer.service';
 import { ethers } from 'ethers';
 import { UpdateQuestionDto } from '../dto/update-question.dto';
-import { LedgerService } from 'src/ledger/ledger.service';
+import { LedgerService } from '../ledger/ledger.service';
 
 @Injectable()
 export class QuestionsService {
