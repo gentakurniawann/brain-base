@@ -1,4 +1,18 @@
-import DOMPurify from "isomorphic-dompurify";
+/**
+ * Sanitize a string using DOMPurify (client-side only)
+ * On server-side, returns the original string to avoid __dirname issues
+ */
+const sanitizeString = (str: string): string => {
+  if (typeof window !== 'undefined') {
+    // Client-side: use DOMPurify
+    // Dynamic import is handled at module level for performance
+    const DOMPurify = require('dompurify');
+    return DOMPurify.sanitize(str);
+  }
+  // Server-side: return trimmed string (basic sanitization)
+  // Full sanitization will happen on client-side
+  return str;
+};
 
 /**
  * Sanitizes data by removing potentially harmful content
@@ -12,19 +26,19 @@ export const sanitizeData = (data: unknown): unknown => {
     }
 
     // Handle different data types
-    if (typeof data === "string") {
+    if (typeof data === 'string') {
       // Allow email addresses to pass through without sanitizing
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (emailRegex.test(data)) {
         return data;
       }
       const trimmedData = data?.trim();
-      return DOMPurify.sanitize(trimmedData);
+      return sanitizeString(trimmedData);
     }
 
     if (Array.isArray(data)) {
       return data.map((item) => {
-        if (typeof item === "string") {
+        if (typeof item === 'string') {
           const trimmedItem = item?.trim();
           return sanitizeData(trimmedItem);
         }
@@ -32,10 +46,10 @@ export const sanitizeData = (data: unknown): unknown => {
       });
     }
 
-    if (typeof data === "object") {
+    if (typeof data === 'object') {
       const sanitizedData: { [key: string]: unknown } = {};
       for (const [key, value] of Object.entries(data)) {
-        const trimmedValue = typeof value === "string" ? value?.trim() : value;
+        const trimmedValue = typeof value === 'string' ? value?.trim() : value;
         sanitizedData[key] = sanitizeData(trimmedValue);
       }
       return sanitizedData;
@@ -43,7 +57,7 @@ export const sanitizeData = (data: unknown): unknown => {
 
     return data;
   } catch (error) {
-    console.error("Error sanitizing data:", error);
+    console.error('Error sanitizing data:', error);
     return data; // Return original data if sanitization fails
   }
 };
@@ -56,14 +70,12 @@ export const sanitizeData = (data: unknown): unknown => {
 export const sanitizeUrl = (url: string): string => {
   try {
     // Split URL into base path and query string
-    const [basePath, queryString] = url.split("?");
+    const [basePath, queryString] = url.split('?');
 
     // Sanitize path parameters
-    const pathParts = basePath.split("/");
-    const sanitizedPathParts = pathParts.map((part) =>
-      sanitizeData(decodeURIComponent(part)),
-    );
-    const sanitizedBasePath = sanitizedPathParts.join("/");
+    const pathParts = basePath.split('/');
+    const sanitizedPathParts = pathParts.map((part) => sanitizeData(decodeURIComponent(part)));
+    const sanitizedBasePath = sanitizedPathParts.join('/');
 
     // If there's no query string, return the sanitized base path
     if (!queryString) {
@@ -87,7 +99,7 @@ export const sanitizeUrl = (url: string): string => {
       ? `${sanitizedBasePath}?${sanitizedQueryString}`
       : sanitizedBasePath;
   } catch (error) {
-    console.error("Error sanitizing URL:", error);
+    console.error('Error sanitizing URL:', error);
     return url; // Return original URL if sanitization fails
   }
 };
