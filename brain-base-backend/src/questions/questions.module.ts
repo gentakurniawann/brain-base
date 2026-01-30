@@ -6,7 +6,7 @@ import { IpfsModule } from '../ipfs/ipfs.module';
 import { HashingModule } from '../hashing/hashing.module';
 import { ChainModule } from '../chain/chain.module';
 import { UsersModule } from '../users/users.module';
-import { LedgerModule } from 'src/ledger/ledger.module';
+import { LedgerModule } from '../ledger/ledger.module';
 
 @Module({
   imports: [IpfsModule, HashingModule, ChainModule, UsersModule, LedgerModule],

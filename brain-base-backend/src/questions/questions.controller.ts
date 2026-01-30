@@ -19,8 +19,8 @@ import { QuestionsService } from './questions.service';
 import { AskDto } from '../dto/ask.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { OptionalJwtAuthGuard } from '../common/guards/optional-jwt-auth.guard';
-import { UsersService } from 'src/users/users.service';
-import { ChainReadService } from 'src/chain/chain-read.service';
+import { UsersService } from '../users/users.service';
+import { ChainReadService } from '../chain/chain-read.service';
 import { UpdateQuestionDto } from '../dto/update-question.dto';
 
 @Controller('questions')

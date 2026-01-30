@@ -17,7 +17,7 @@ import { PrismaService } from '../common/prisma.service';
 import { IpfsService } from '../ipfs/ipfs.service';
 import { HashingService } from '../hashing/hashing.service';
 import { AnswerDto } from '../dto/answer.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { OptionalJwtAuthGuard } from '../common/guards/optional-jwt-auth.guard';
 import { AnswersService } from './answers.service';
@@ -39,7 +39,6 @@ export class AnswersController {
     @Body() dto: AnswerDto,
     @Request() req,
   ) {
-
     const id = Number(qId);
     if (isNaN(id)) throw new BadRequestException('Invalid question ID');
 

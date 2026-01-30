@@ -9,7 +9,7 @@ import { IpfsService } from '../ipfs/ipfs.service';
 import { HashingService } from '../hashing/hashing.service';
 import { AnswerDto } from '../dto/answer.dto';
 import { publish } from '../sse/sse.controller';
-import { SignerService } from 'src/chain/signer.service';
+import { SignerService } from '../chain/signer.service';
 
 @Injectable()
 export class AnswersService {

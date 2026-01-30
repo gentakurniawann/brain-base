@@ -21,9 +21,9 @@ async function createNestApp(expressInstance: express.Express) {
       secret: process.env.SESSION_SECRET || process.env.JWT_SECRET || 'dev',
       resave: false,
       saveUninitialized: false,
-      cookie: { 
+      cookie: {
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       },
     }),
   );
