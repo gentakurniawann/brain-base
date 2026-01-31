@@ -77,8 +77,8 @@ export default function SignIn() {
           <Image
             src="/images/brainbase-logo-b.png"
             alt="brainbase-logo"
-            width={155}
-            height={24}
+            width={32}
+            height={32}
           />
           <h2 className="text-2xl font-bold text-blue-950">Sign In</h2>
           <p className="text-slate-500 text-sm mt-1">Sign in with your Google account</p>

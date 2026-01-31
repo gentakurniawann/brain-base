@@ -17,6 +17,8 @@ export async function GET() {
       splashImageUrl: `${appUrl}/images/brainbase-logo-b.png`,
       splashBackgroundColor: '#0A0A0A',
       webhookUrl: `${appUrl}/api/webhook`,
+      primaryCategory: 'education',
+      tags: ['defi', 'social', 'knowledge', 'bounty', 'base'],
     },
   };
 
