@@ -1,36 +1,166 @@
-This is a [Next.js 15.5.7](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
- 
-## Getting Started  
-  
-First, run the development server: 
+
+# 🎨 Frontend (Next.js 15 + OnchainKit)
+
+This folder contains the **frontend application** for BrainBase.
+Built with Next.js 15 App Router, OnchainKit for wallet integration, and TailwindCSS for styling.
+
+---
+
+## 📁 Folder Structure
+
+```
+brain-base-frontend/
+├── app/
+│   ├── (auth)/           # Auth pages (sign-in)
+│   ├── (home)/           # Main app pages
+│   ├── .well-known/      # Farcaster manifest
+│   └── layout.tsx
+├── components/
+│   ├── global/           # Dialogs, modals
+│   ├── layout/           # Navbar, sidebar
+│   └── ui/               # Shadcn components
+├── hooks/                # Custom React hooks
+├── lib/
+│   ├── providers.tsx     # Wagmi + OnchainKit setup
+│   └── chains/           # Chain config
+├── services/             # API services
+├── stores/               # Zustand stores
+├── public/
+├── .env                  # Local only (DO NOT commit)
+├── .env.example          # Template
+└── package.json
+```
+
+---
+
+## 📦 Prerequisites
+
+- **Node.js** ≥ 18
+- **npm** or **yarn**
+- **Coinbase Wallet** or **MetaMask**
+
+---
+
+## 🌱 Environment Variables
+
+### Create `.env`
+
+```bash
+cp .env.example .env
+```
+
+### `.env` Configuration
+
+```env
+# Backend API
+NEXT_PUBLIC_API_BASE_URL="http://localhost:3001"
+
+# App URL
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+# Base Sepolia Contracts
+NEXT_PUBLIC_BRAIN_TOKEN_ADDRESS="0x3Cf366603b3eF53DE5C73D58dFEFC9880619D7ec"
+NEXT_PUBLIC_MOCK_IDRX_ADDRESS="0x3506Db9a155A3DBc1D726ddB00c14096CA1E28f4"
+NEXT_PUBLIC_BRAIN_SWAP_ADDRESS="0x2601385B79c683C40BF366ECB2bf8AdC46a12Fb4"
+NEXT_PUBLIC_QNA_CONTRACT_ADDRESS="0x990EEe9119805Fb26559f6A7fb15c3B1416aaaE1"
+
+# OnchainKit (get from https://portal.cdp.coinbase.com)
+NEXT_PUBLIC_ONCHAINKIT_API_KEY="your-api-key"
+```
+
+---
+
+## 🚀 How to Run
+
+### 1️⃣ Install Dependencies
+
+```bash
+npm install
+```
+
+### 2️⃣ Start Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will be available at: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔗 Wallet Integration
 
-## Learn More
+BrainBase uses **OnchainKit** for wallet connectivity:
 
-To learn more about Next.js, take a look at the following resources:
+- **Coinbase Smart Wallet** - Gasless transactions, social recovery
+- **MetaMask** - Traditional wallet support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Wallet Config (lib/providers.tsx)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```tsx
+const wagmiConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    coinbaseWallet({ appName: 'BrainBase', preference: 'smartWalletOnly' }),
+    metaMask({ dappMetadata: { name: 'BrainBase' } }),
+  ],
+  transports: { [baseSepolia.id]: http() },
+});
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Technology | Purpose |
+|------------|---------|
+| Next.js 15 | React framework with App Router |
+| TailwindCSS | Utility-first CSS |
+| OnchainKit | Wallet integration (Coinbase) |
+| Wagmi + Viem | Blockchain interactions |
+| Zustand | State management |
+| Tanstack Query | Data fetching |
+| Shadcn/ui | UI components |
+
+---
+
+## 📱 Features
+
+- **Google OAuth** sign-in
+- **Wallet Connect** via OnchainKit
+- **Q&A with Bounties** - Post questions, earn BRAIN
+- **Token Swap** - mIDRX ↔ BRAIN
+- **Faucet** - Free tokens for new users
+- **Base Mini-App** - Farcaster manifest support
+
+---
+
+## 🧪 Useful Commands
+
+```bash
+npm run dev         # Start dev server
+npm run build       # Production build
+npm run start       # Start production server
+npm run lint        # Run ESLint
+```
+
+---
+
+## 🔁 Local Development Order
+
+1. Start backend: `cd ../brain-base-backend && npm run start:dev`
+2. Start frontend: `npm run dev`
+3. Open `http://localhost:3000`
+
+---
+
+## � Deployment
+
+Deploy to **Vercel**:
+
+```bash
+npm run build
+vercel --prod
+```
+
+Make sure all `NEXT_PUBLIC_*` environment variables are set in Vercel dashboard.
