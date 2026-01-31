@@ -75,7 +75,7 @@ export default function SignIn() {
       >
         <div className="flex flex-col items-center gap-4 mb-4">
           <Image
-            src="/images/brainbase-logo-full.png"
+            src="/images/brainbase-logo-b.png"
             alt="brainbase-logo"
             width={155}
             height={24}
